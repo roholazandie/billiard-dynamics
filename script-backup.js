@@ -81,6 +81,12 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const playPauseBtn = document.getElementById('playPause');
 const resetBtn = document.getElementById('reset');
+const collisionSequence = document.getElementById('collisionSequence');
+const clearCollisionsBtn = document.getElementById('clearCollisions');
+const sequenceLength = document.getElementById('sequenceLength');
+const nwordLength = document.getElementById('nwordLength');
+const nwordsOutput = document.getElementById('nwordsOutput');
+const nwordsCount = document.getElementById('nwordsCount');
 const speedSlider = document.getElementById('speedSlider');
 const speedValue = document.getElementById('speedValue');
 const particleCountInput = document.getElementById('particleCount');
@@ -116,11 +122,55 @@ let particles = [];
 let speed = 3;
 let isPlaying = true;
 let animationId;
+let collisionHistory = [];
+let uniqueNWords = new Set();
 
 const colors = [
     '#e94560', '#ff6b6b', '#ee5a6f', '#ff4757', '#ff6348',
     '#ff7979', '#eb4d4b', '#f368e0', '#ff9ff3', '#feca57'
 ];
+
+function addCollision(code) {
+    if (currentShape === 'rectangle') {
+        collisionHistory.push(code);
+        updateCollisionDisplay();
+        updateNWords();
+    }
+}
+
+function updateCollisionDisplay() {
+    collisionSequence.textContent = collisionHistory.join('');
+    sequenceLength.textContent = collisionHistory.length;
+    collisionSequence.scrollTop = collisionSequence.scrollHeight;
+}
+
+function updateNWords() {
+    const n = parseInt(nwordLength.value);
+    const sequence = collisionHistory.join('');
+    
+    // Extract all n-words from the sequence
+    for (let i = 0; i <= sequence.length - n; i++) {
+        const nword = sequence.substring(i, i + n);
+        uniqueNWords.add(nword);
+    }
+    
+    displayNWords();
+}
+
+function displayNWords() {
+    const sortedNWords = Array.from(uniqueNWords).sort();
+    nwordsOutput.innerHTML = sortedNWords
+        .map(nword => `<span class="nword-item">${nword}</span>`)
+        .join('');
+    nwordsCount.textContent = uniqueNWords.size;
+}
+
+function clearCollisionHistory() {
+    collisionHistory = [];
+    uniqueNWords.clear();
+    updateCollisionDisplay();
+    displayNWords();
+}
 
 function getRandomEdgePosition() {
     if (currentShape === 'circle') {
@@ -487,11 +537,13 @@ function updateParticles() {
             if (particle.x - particle.radius <= 0 || particle.x + particle.radius >= canvas.width) {
                 particle.vx = -particle.vx;
                 particle.x = Math.max(particle.radius, Math.min(canvas.width - particle.radius, particle.x));
+                addCollision('0'); // Left or right wall hit
             }
             
             if (particle.y - particle.radius <= 0 || particle.y + particle.radius >= canvas.height) {
                 particle.vy = -particle.vy;
                 particle.y = Math.max(particle.radius, Math.min(canvas.height - particle.radius, particle.y));
+                addCollision('1'); // Top or bottom wall hit
             }
         }
         
@@ -555,8 +607,19 @@ playPauseBtn.addEventListener('click', () => {
 
 resetBtn.addEventListener('click', () => {
     initParticle();
+    clearCollisionHistory();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawParticles();
+});
+
+clearCollisionsBtn.addEventListener('click', () => {
+    clearCollisionHistory();
+});
+
+nwordLength.addEventListener('change', () => {
+    // Recalculate n-words with new length
+    uniqueNWords.clear();
+    updateNWords();
 });
 
 speedSlider.addEventListener('input', (e) => {
@@ -582,6 +645,7 @@ particleCountInput.addEventListener('change', () => {
 shapeSelect.addEventListener('change', (e) => {
     currentShape = e.target.value;
     canvas.style.cursor = 'default'; // Reset cursor
+    clearCollisionHistory(); // Clear collision history when shape changes
     
     // Show/hide controls based on shape
     if (currentShape === 'ellipse') {

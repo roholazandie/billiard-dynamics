@@ -8,6 +8,144 @@ body {
     min-height: 100vh;
     background: #1a1a2e;
     font-family: Arial, sans-serif;
+    color: white;
+}
+
+.sequence-display {
+    background: #334155;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    border: 2px solid #475569;
+    min-width: 600px;
+}
+
+.sequence-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.sequence-header h2 {
+    font-size: 1.2rem;
+    margin: 0;
+    color: white;
+}
+
+.sequence-length {
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.sequence-output {
+    background: #0f172a;
+    padding: 15px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    color: #4ade80;
+    height: 100px;
+    overflow-y: auto;
+    word-break: break-all;
+    margin-bottom: 10px;
+}
+
+.nwords-display {
+    background: #334155;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    border: 2px solid #475569;
+    min-width: 600px;
+}
+
+.nwords-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.nwords-header h2 {
+    font-size: 1.2rem;
+    margin: 0;
+    color: white;
+}
+
+.nwords-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.nwords-controls label {
+    color: #cbd5e1;
+    font-size: 0.9rem;
+}
+
+.nwords-select {
+    padding: 4px 8px;
+    background: #475569;
+    color: white;
+    border: 1px solid #64748b;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.nwords-select:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.nwords-count {
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.nwords-output {
+    background: #0f172a;
+    padding: 15px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    color: #60a5fa;
+    height: 120px;
+    overflow-y: auto;
+    word-wrap: break-word;
+    line-height: 1.4;
+}
+
+.nword-item {
+    display: inline-block;
+    background: #1e40af;
+    color: white;
+    padding: 2px 6px;
+    margin: 2px;
+    border-radius: 3px;
+    font-size: 0.8rem;
+}
+
+#clearCollisions {
+    background: #533483;
+    color: white;
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: bold;
+}
+
+#clearCollisions:hover {
+    background: #6a4c93;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(83, 52, 131, 0.4);
 }
 
 #canvas {

@@ -7,6 +7,33 @@
     <link rel="stylesheet" href="styles-backup.css">
 </head>
 <body>
+    <div class="sequence-display">
+        <div class="sequence-header">
+            <h2>Collision Sequence</h2>
+            <div class="sequence-length">Length: <span id="sequenceLength">0</span></div>
+        </div>
+        <div class="sequence-output" id="collisionSequence"></div>
+        <button id="clearCollisions">Clear Sequence</button>
+    </div>
+    
+    <div class="nwords-display">
+        <div class="nwords-header">
+            <h2>Unique N-Words</h2>
+            <div class="nwords-controls">
+                <label for="nwordLength">N:</label>
+                <select id="nwordLength" class="nwords-select">
+                    <option value="2">2</option>
+                    <option value="3" selected>3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+                <div class="nwords-count">Found: <span id="nwordsCount">0</span></div>
+            </div>
+        </div>
+        <div class="nwords-output" id="nwordsOutput"></div>
+    </div>
+    
     <canvas id="canvas" width="800" height="600"></canvas>
     <div class="controls">
         <div class="controls-row">
